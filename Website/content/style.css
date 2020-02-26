@@ -1,0 +1,62 @@
+.app-progress-indicator {
+    background: rgba(0,0,0,0.2) url('../content/loading.gif') no-repeat 50% 50%;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; /* Sit on top */
+}
+
+
+.item1 {
+    grid-area: header;
+    text-align:center;
+    font-size:2rem;
+}
+
+.item2 {
+    grid-area: left;
+}
+
+.item3 {
+    grid-area: main;
+    text-align: center;
+}
+
+.item4 {
+    grid-area: right;
+}
+
+.grid-container > div {
+    /*background-color: rgba(255, 255, 255, 0.8);*/
+    padding: 20px 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 'header header header header header header' 'left main main main right right' ;
+    grid-gap: 5px;
+    /*background-color: #2196F3;*/
+    padding: 10px;
+}
+
+.inputgrid-container {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-template-columns: auto auto;
+    /*background-color: #2196F3;*/
+    padding: 10px;
+    max-width:500px
+}
+
+.inputgrid-item {
+    /*background-color: rgba(255, 255, 255, 0.8);*/
+    /*border: 1px solid rgba(0, 0, 0, 0.8);*/
+    text-align: left;
+}
+
+#base64Img{
+    width:500px;
+    height:500px;
+}

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>GA Travelling Salesman</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="content/style.css">
+  </head>
+  <body>
+      <div class="app-progress-indicator" style="visibility:hidden"></div>
+      <div class="grid-container">
+          <div class="item1">Solving Travelling Salesman by calling Azure function</div>
+          <div class="item2">
+              <fieldset>
+                  <legend>Inputs:</legend>
+                  <div class="inputgrid-container">
+                      <div class="inputgrid-item">Number of cities to visit:</div>
+                      <div class="inputgrid-item"><input type="text" id="numofCities" value="10" /></div>
+                      <div class="inputgrid-item">Population size (optional):</div>
+                      <div class="inputgrid-item"><input type="text" id="populationSize" value="100" /></div>
+                      <div class="inputgrid-item">Crossover %</div>
+                      <div class="inputgrid-item"><input type="text" id="crossoverPercentage" value="50" /></div>
+                      <div class="inputgrid-item">Mutation %</div>
+                      <div class="inputgrid-item"><input type="text" id="mutationPercentage" value="2" /></div>
+                  </div>
+                  <input type="button" value="Generate Image"
+                         title="Generate Image"
+                         onclick="setBase64ToImage()">
+              </fieldset>
+          </div>
+
+          <div class="item3"><img src="" id="base64Img"></div>
+          <div class="item4">
+              <fieldset>
+                  <legend>Ouput:</legend>
+                  <div class="inputgrid-container">
+                      <div class="inputgrid-item">Optimised path length (blue colour):</div>
+                      <div class="inputgrid-item"><label id="bestLength" /></div>
+                      <div class="inputgrid-item">Next neighbour path length (gray colour):</div>
+                      <div class="inputgrid-item"><label id="nextNeighbourLength" /></div>
+                      <div class="inputgrid-item">diff length:</div>
+                      <div class="inputgrid-item"><label id="diffLength" /></div>
+                      <p id="success">&#x1F600;</p>
+                  </div>
+              </fieldset>
+          </div>
+      </div>
+      <script src="content/script.js"></script>
+  </body>
+</html>
