@@ -1,5 +1,5 @@
 
-const userAction = async () => {
+const solve = async () => {
 
     document.getElementsByClassName("app-progress-indicator")[0].style.visibility = "visible";
 
@@ -8,9 +8,10 @@ const userAction = async () => {
         PopulationSize: parseInt(document.getElementById("populationSize").value),
         CrossoverPercentage: parseInt(document.getElementById("crossoverPercentage").value),
         MutationPercentage: parseInt(document.getElementById("mutationPercentage").value),
+        NumIterations: parseInt(document.getElementById("numOfIterations").value),
     };
 
-    console.log(myBody);
+   // console.log(myBody);
 
     const response = await fetch('https://gatravelsalesmanfunctionapp.azurewebsites.net/api/optimisedpath', {
         method: 'POST',
@@ -19,7 +20,7 @@ const userAction = async () => {
 
     const myJson = await response.json(); 
 
-    console.log(myJson);
+   // console.log(myJson);
 
     document.getElementById("base64Img").src ='data:image/png;base64,'+ myJson.image;
     document.getElementById("bestLength").innerHTML  = myJson.bestLength;
@@ -31,5 +32,5 @@ const userAction = async () => {
 }
 
 function setBase64ToImage (){
-     userAction();
+     solve();
 }
