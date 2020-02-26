@@ -26,7 +26,7 @@ const solve = async () => {
     document.getElementById("bestLength").innerHTML  = myJson.bestLength;
     document.getElementById("nextNeighbourLength").innerHTML = myJson.nextNeighbourLength;
     let diff = parseInt(myJson.nextNeighbourLength) - parseInt(myJson.bestLength);
-    document.getElementById("diffLength").innerHTML = diff;
+    document.getElementById("diffLength").innerHTML = (100 * diff / myJson.nextNeighbourLength).toFixed(2) + "%";
     document.getElementById("success").innerHTML =  diff > 0 ? "&#x1F600;" : "&#x1F61E;";
     document.getElementsByClassName("app-progress-indicator")[0].style.visibility = "hidden";
 }

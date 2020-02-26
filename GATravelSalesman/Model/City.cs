@@ -5,7 +5,7 @@
         public int X { get; set; }
         public int Y { get; set; }
 
-        public const int ClickRadius = 10;
+        public const int ClickRadius = 12;
 
         public bool WithinClickRadius(int x, int y)
         {

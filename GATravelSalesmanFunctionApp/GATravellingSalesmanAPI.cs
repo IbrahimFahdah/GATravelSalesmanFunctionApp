@@ -24,7 +24,7 @@ namespace GATravelSalesmanFunctionApp
     {
         const int ActualHeight = 1500;
         const int ActualWidth = 1500;
-
+        const int Margin = 10;
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +38,7 @@ namespace GATravelSalesmanFunctionApp
         {
             log.LogInformation("Start a new optimisation job.");
 
-           // string NumCities = req.Query["NumCities"];
+            // string NumCities = req.Query["NumCities"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var input = JsonConvert.DeserializeObject<GATravellingSalesmanInput>(requestBody);
@@ -52,7 +52,7 @@ namespace GATravelSalesmanFunctionApp
             var img = Draw();
             DrawCities(img, GA);
             DrawPath(img, GA, GAPathChosen, true);
-            DrawPath(img, GA,TraPathChosen,false);
+            DrawPath(img, GA, TraPathChosen, false);
             var imgAsBase64 = "";
             using (var outputStream = new MemoryStream())
             {
@@ -63,14 +63,14 @@ namespace GATravelSalesmanFunctionApp
 
             var output = new GATravellingSalesmanOutput()
             {
-                BestLength= GAPathChosen.Length,
-                NextNeighbourLength= TraPathChosen.Length,
+                BestLength = GAPathChosen.Length,
+                NextNeighbourLength = TraPathChosen.Length,
                 Image = imgAsBase64
             };
             return new OkObjectResult(output);
         }
 
-      
+
         private static void CreateCities(GATravellingSalesmanContoller GA, GATravellingSalesmanInput input)
         {
             GA.NumCities = input.NumCities;
@@ -87,7 +87,7 @@ namespace GATravelSalesmanFunctionApp
 
         private static Image Draw()
         {
-            Image img = new Image<Rgba32>(ActualWidth, ActualHeight);
+            Image img = new Image<Rgba32>(ActualWidth + Margin, ActualHeight + Margin);
 
             //PathBuilder pathBuilder = new PathBuilder();
             //pathBuilder.SetOrigin(new PointF(500, 0));
@@ -139,7 +139,8 @@ namespace GATravelSalesmanFunctionApp
             for (int i = 0; i < GA.Cities.Count; i++)
             {
                 var city = GA.Cities[i];
-                var displayElement = new EllipsePolygon(city.X, city.Y, City.ClickRadius * 2, City.ClickRadius * 2);
+                var dotSize = i == 0 ? City.ClickRadius * 4 : City.ClickRadius * 2;
+                var displayElement = new EllipsePolygon(city.X, city.Y, dotSize, dotSize);
 
                 canvas.Mutate(ctx => ctx
                 .Fill(i == 0 ? Color.Red : Color.Green, displayElement));
@@ -152,8 +153,8 @@ namespace GATravelSalesmanFunctionApp
             City firstCity = GA.Cities[0];
 
             PathBuilder pathBuilder = new PathBuilder();
-       
-             var points = new List<PointF>();
+
+            var points = new List<PointF>();
             points.Add(new PointF(firstCity.X, firstCity.Y));
             for (int i = 0; i < path.CityIndexes.Count; i++)
             {
@@ -167,9 +168,20 @@ namespace GATravelSalesmanFunctionApp
             pathBuilder.CloseFigure();
             IPath spath = pathBuilder.Build();
             canvas.Mutate(ctx => ctx
-             .Draw(optimised? Color.Blue:Color.Gray, 3, spath));
+             .Draw(optimised ? Color.Blue : Color.Gray, 3, spath));
 
-          
+
+            var font = SystemFonts.CreateFont("Arial", 39, FontStyle.Regular);
+            var textGraphicsOptions = new TextGraphicsOptions(true);
+            for (int i = 0; i < path.CityIndexes.Count; i++)
+            {
+                City city = GA.Cities[path.CityIndexes[i]];
+                var p = new PointF(city.X + (optimised ? -1 : 1) * City.ClickRadius * 4, city.Y);
+                var glyphs = TextBuilder.GenerateGlyphs((i + 1).ToString(), p, new RendererOptions(font, textGraphicsOptions.DpiX, textGraphicsOptions.DpiY));
+                canvas.Mutate(ctx => ctx
+                    .Fill((GraphicsOptions)textGraphicsOptions, optimised ? Color.Blue : Color.Gray, glyphs));
+
+            }
         }
 
     }
